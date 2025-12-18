@@ -1,0 +1,65 @@
+# Build directories
+build/
+_build/
+out/
+*.so
+*.a
+*.lib
+
+# Compiled object files
+*.o
+*.ko
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dependencies
+_deps/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test data and reports
+examples/data/
+reports/
+custom_reports/
+report_generation.log
+sales_data.csv
+
+# System files
+.DS_Store
+Thumbs.db
