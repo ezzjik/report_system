@@ -30,13 +30,13 @@ namespace report_system {
         html << "</head>\n";
         html << "<body>\n";
         html << "<h1>" << title_ << "</h1>\n";
-        
+
         // Начинаем таблицу
         html << "<table border=\"1\">\n";
 
         // Определяем имена колонок для CSV данных
         std::vector<std::string> column_names;
-        
+
         if (!data.data.empty()) {
             const CsvDataRecord* csv_record = dynamic_cast<const CsvDataRecord*>(data.data[0].get());
             if (csv_record && csv_record->size() > 0 && include_column_names_) {
@@ -78,15 +78,15 @@ namespace report_system {
 
         // Если данных нет, показываем сообщение
         if (record_count == 0) {
-            html << "  <tr><td colspan=\"" << (column_names.empty() ? 1 : column_names.size()) 
+            html << "  <tr><td colspan=\"" << (column_names.empty() ? 1 : column_names.size())
                  << "\">No data available after filtering</td></tr>\n";
         }
 
         html << "</table>\n";
-        
+
         // Добавляем статистику
         html << "<p>Total records: " << record_count << "</p>\n";
-        
+
         html << "</body>\n";
         html << "</html>\n";
 

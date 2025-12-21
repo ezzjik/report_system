@@ -12,7 +12,7 @@ int main() {
     try {
         // Создаем сложный отчет с несколькими процессорами
         auto report = report_system::ReportBuilder()
-                          .setDataSource(std::make_unique<report_system::CsvDataProvider>("data/sales.csv", ';'))
+                          .setDataSource(std::make_unique<report_system::CsvDataProvider>("examples/data/sales.csv", ';'))
                           .addProcessor(std::make_unique<report_system::FilterProcessor>("quarter == 'Q1'"))
                           .addProcessor(std::make_unique<report_system::FilterProcessor>("region == 'Europe'"))
                           .setFormatter(std::make_unique<report_system::HtmlFormatter>())

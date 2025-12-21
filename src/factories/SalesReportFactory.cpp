@@ -4,7 +4,7 @@ namespace report_system {
 
     std::unique_ptr<DataProvider> SalesReportFactory::createDataProvider() {
         // Используем CSV файл с продажами
-        return std::make_unique<CsvDataProvider>("data/sales.csv", ';');
+        return std::make_unique<CsvDataProvider>("examples/data/sales.csv", ';');
     }
 
     std::unique_ptr<DataProcessor> SalesReportFactory::createDataProcessor() {

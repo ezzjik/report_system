@@ -87,7 +87,7 @@ namespace report_system {
 
             auto result = processor.process(std::move(input));
 
-            // С пустым условием функция фильтрации отклоняет все записи
+            // Условие "new_condition" не соответствует данным "data", поэтому запись должна быть отклонена
             EXPECT_TRUE(result.success);
             EXPECT_EQ(result.data.size(), 0);
         }
