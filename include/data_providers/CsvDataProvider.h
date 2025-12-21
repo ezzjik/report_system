@@ -17,6 +17,9 @@ namespace report_system {
         // Получить поле по индексу
         std::string getField(size_t index) const;
 
+        // Получить поле по имени колонки (если известно)
+        std::string getField(const std::string& column_name, const std::vector<std::string>& column_names) const;
+
         // Получить все поля
         const std::vector<std::string>& getFields() const;
 
@@ -41,9 +44,13 @@ namespace report_system {
         // Установить разделитель
         void setDelimiter(char delimiter);
 
+        // Получить имена колонок
+        const std::vector<std::string>& getColumnNames() const;
+
     private:
         std::string file_path_;
         char delimiter_{','};
+        std::vector<std::string> column_names_;
     };
 
 } // namespace report_system

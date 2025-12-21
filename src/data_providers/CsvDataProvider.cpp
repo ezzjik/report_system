@@ -17,6 +17,16 @@ namespace report_system {
         return fields_[index];
     }
 
+    std::string CsvDataRecord::getField(const std::string& column_name, const std::vector<std::string>& column_names) const {
+        // Находим индекс колонки по имени
+        for (size_t i = 0; i < column_names.size(); ++i) {
+            if (column_names[i] == column_name) {
+                return getField(i);
+            }
+        }
+        return ""; // Колонка не найдена
+    }
+
     const std::vector<std::string>& CsvDataRecord::getFields() const {
         return fields_;
     }
@@ -52,9 +62,17 @@ namespace report_system {
             }
 
             std::string line;
-            // Пропускаем заголовок (первую строку)
-            std::getline(file, line);
+            // Читаем заголовок (первую строку)
+            if (std::getline(file, line)) {
+                std::stringstream header_ss(line);
+                std::string column;
+                column_names_.clear();
+                while (std::getline(header_ss, column, delimiter_)) {
+                    column_names_.push_back(column);
+                }
+            }
 
+            // Читаем остальные строки (данные)
             while (std::getline(file, line)) {
                 std::vector<std::string> fields;
                 std::stringstream ss(line);
@@ -89,6 +107,10 @@ namespace report_system {
 
     void CsvDataProvider::setDelimiter(char delimiter) {
         delimiter_ = delimiter;
+    }
+
+    const std::vector<std::string>& CsvDataProvider::getColumnNames() const {
+        return column_names_;
     }
 
 } // namespace report_system

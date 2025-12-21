@@ -1,13 +1,7 @@
 #include "../../include/factories/SalesReportFactory.h"
-#include "../mocks/MockDataProvider.h"
-#include "../mocks/MockDataProcessor.h"
-#include "../mocks/MockFormatter.h"
-#include "../mocks/MockExportStrategy.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-using ::testing::Return;
 
 namespace report_system {
     namespace test {
