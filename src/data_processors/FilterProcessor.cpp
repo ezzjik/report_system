@@ -101,34 +101,33 @@ namespace report_system {
             if (eq_pos == std::string::npos) {
                 for (size_t i = 0; i < csv_record->size(); ++i) {
                     if (csv_record->getField(i).find(expected_value) != std::string::npos) {
-                        return std::make_unique<CsvDataRecord>(csv_record->getFields());
+                        return std::make_unique<CsvDataRecord>(csv_record->getFields(), csv_record->getColumnNames());
                     }
                 }
                 return nullptr;
             }
 
-            // Определяем индекс поля по его имени
-            // Для упрощения: quarter -> индекс 0, region -> индекс 1 и т.д.
-            size_t field_index = std::string::npos;
-            if (field_name == "quarter") {
-                field_index = 0;
-            } else if (field_name == "region") {
-                field_index = 1;
-            } else if (field_name == "product") {
-                field_index = 2;
-            } else if (field_name == "sales") {
-                field_index = 3;
-            } else if (field_name == "profit") {
-                field_index = 4;
-            }
-
-            if (field_index == std::string::npos || field_index >= csv_record->size()) {
-                return nullptr;
+            // Используем метод getField по имени колонки
+            std::string field_value = csv_record->getField(field_name);
+            // Если поле не найдено, проверяем, может быть колонка с таким именем не существует
+            if (field_value.empty()) {
+                // Проверяем, существует ли такая колонка
+                bool column_exists = false;
+                for (const auto& col_name : csv_record->getColumnNames()) {
+                    if (col_name == field_name) {
+                        column_exists = true;
+                        break;
+                    }
+                }
+                // Если колонка существует, но значение пустое - это нормально
+                if (!column_exists) {
+                    return nullptr;
+                }
             }
 
             // Сравниваем значение поля с ожидаемым
-            if (csv_record->getField(field_index) == expected_value) {
-                return std::make_unique<CsvDataRecord>(csv_record->getFields());
+            if (field_value == expected_value) {
+                return std::make_unique<CsvDataRecord>(csv_record->getFields(), csv_record->getColumnNames());
             }
 
             return nullptr;

@@ -40,14 +40,22 @@ namespace report_system {
         if (!data.data.empty()) {
             const CsvDataRecord* csv_record = dynamic_cast<const CsvDataRecord*>(data.data[0].get());
             if (csv_record && csv_record->size() > 0 && include_column_names_) {
-                // Используем стандартные имена колонок для CSV
-                // Предполагаем структуру: quarter, region, product, sales, profit
-                std::vector<std::string> default_names = {"Quarter", "Region", "Product", "Sales", "Profit"};
-                for (size_t i = 0; i < std::min(csv_record->size(), default_names.size()); ++i) {
-                    column_names.push_back(default_names[i]);
+                // Используем реальные имена колонок из CsvDataRecord
+                const auto& record_column_names = csv_record->getColumnNames();
+                if (!record_column_names.empty()) {
+                    // Если имена колонок есть в записи, используем их
+                    for (size_t i = 0; i < std::min(csv_record->size(), record_column_names.size()); ++i) {
+                        column_names.push_back(record_column_names[i]);
+                    }
+                } else {
+                    // Если имен колонок нет, используем стандартные
+                    std::vector<std::string> default_names = {"Quarter", "Region", "Product", "Sales", "Profit"};
+                    for (size_t i = 0; i < std::min(csv_record->size(), default_names.size()); ++i) {
+                        column_names.push_back(default_names[i]);
+                    }
                 }
-                // Если колонок больше, чем стандартных имен
-                for (size_t i = default_names.size(); i < csv_record->size(); ++i) {
+                // Если колонок больше, чем имен
+                for (size_t i = column_names.size(); i < csv_record->size(); ++i) {
                     column_names.push_back("Column " + std::to_string(i + 1));
                 }
             }
@@ -101,15 +109,15 @@ namespace report_system {
     }
 
     std::string HtmlFormatter::getOutputType() const {
-        return "text/html";
-    }
-
-    void HtmlFormatter::setTableStyle(const std::string& style) {
-        table_style_ = style;
+        return "html";
     }
 
     void HtmlFormatter::setTitle(const std::string& title) {
         title_ = title;
+    }
+
+    void HtmlFormatter::setTableStyle(const std::string& style) {
+        table_style_ = style;
     }
 
     void HtmlFormatter::includeColumnNames(bool include) {

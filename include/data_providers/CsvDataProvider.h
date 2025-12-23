@@ -12,22 +12,26 @@ namespace report_system {
     // Конкретная запись данных из CSV
     class CsvDataRecord: public DataRecord {
     public:
-        explicit CsvDataRecord(const std::vector<std::string>& fields);
+        explicit CsvDataRecord(const std::vector<std::string>& fields, const std::vector<std::string>& column_names = {});
 
         // Получить поле по индексу
         std::string getField(size_t index) const;
 
-        // Получить поле по имени колонки (если известно)
-        std::string getField(const std::string& column_name, const std::vector<std::string>& column_names) const;
+        // Получить поле по имени колонки
+        std::string getField(const std::string& column_name) const;
 
         // Получить все поля
         const std::vector<std::string>& getFields() const;
+
+        // Получить имена колонок
+        const std::vector<std::string>& getColumnNames() const;
 
         // Получить количество полей
         size_t size() const;
 
     private:
         std::vector<std::string> fields_;
+        std::vector<std::string> column_names_;
     };
 
     // Поставщик данных из CSV файла
